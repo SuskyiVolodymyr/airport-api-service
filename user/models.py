@@ -39,7 +39,6 @@ class UserManager(BaseUserManager):
 
 class User(AbstractUser):
     """User model."""
-    crew_position = models.CharField(max_length=255, null=True, blank=True)
     username = None
     email = models.EmailField(_("email address"), unique=True)
 
