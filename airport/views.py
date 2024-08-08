@@ -100,6 +100,7 @@ class OrderPagination(PageNumberPagination):
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
     permission_classes = [IsAuthenticated]
+    pagination_class = OrderPagination
 
     def get_serializer_class(self):
         if self.action == "retrieve":
