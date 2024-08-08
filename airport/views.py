@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework.pagination import PageNumberPagination
@@ -14,7 +13,6 @@ from airport.models import (
     Flight,
     Order,
     Route,
-    Ticket,
 )
 from airport.permissions import IsAdminOrIfAuthenticatedReadOnly
 
@@ -67,7 +65,7 @@ class AirportViewSet(ModelViewSet):
     queryset = Airport.objects.all()
 
     def get_queryset(self):
-        queryset = self.queryset
+        queryset = self.queryset.select_related("country")
 
         name = self.request.query_params.get("name")
         country = self.request.query_params.get("country")
@@ -95,7 +93,7 @@ class AirportViewSet(ModelViewSet):
 
 
 class RouteViewSet(ModelViewSet):
-    queryset = Route.objects.all()
+    queryset = Route.objects.select_related("source", "destination")
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
 
     def get_serializer_class(self):
@@ -113,7 +111,7 @@ class AirplaneTypeViewSet(ModelViewSet):
 
 
 class AirplaneViewSet(ModelViewSet):
-    queryset = Airplane.objects.all()
+    queryset = Airplane.objects.select_related("airplane_type")
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
 
     def get_serializer_class(self):
@@ -129,7 +127,9 @@ class CrewViewSet(ModelViewSet):
 
 
 class FlightViewSet(ModelViewSet):
-    queryset = Flight.objects.all()
+    queryset = Flight.objects.select_related("route", "airplane").prefetch_related(
+        "crew"
+    )
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
 
     def get_queryset(self):
@@ -176,7 +176,7 @@ class OrderPagination(PageNumberPagination):
 
 
 class OrderViewSet(ModelViewSet):
-    queryset = Order.objects.all()
+    queryset = Order.objects.prefetch_related("tickets")
     permission_classes = [IsAuthenticated]
     pagination_class = OrderPagination
 
