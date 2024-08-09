@@ -30,7 +30,7 @@ from airport.serializers import (
     OrderSerializer,
     RouteListSerializer,
     AirplaneListRetrieveSerializer,
-    FlightListSerializer,
+    FlightListSerializer, AirportListSerializer,
 )
 
 
@@ -60,7 +60,6 @@ class CountryViewSet(ModelViewSet):
 
 
 class AirportViewSet(ModelViewSet):
-    serializer_class = AirportSerializer
     permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
     queryset = Airport.objects.all()
 
@@ -75,6 +74,11 @@ class AirportViewSet(ModelViewSet):
             queryset = queryset.filter(country__name__icontains=country)
 
         return queryset
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return AirportListSerializer
+        return AirportSerializer
 
     @extend_schema(
         parameters=[

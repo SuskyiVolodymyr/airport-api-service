@@ -22,13 +22,15 @@ class CountrySerializer(serializers.ModelSerializer):
 
 
 class AirportSerializer(serializers.ModelSerializer):
-    country = serializers.SlugRelatedField(
-        many=False, read_only=True, slug_field="name"
-    )
-
     class Meta:
         model = Airport
         fields = ("id", "name", "closest_big_city", "country")
+
+
+class AirportListSerializer(AirportSerializer):
+    country = serializers.SlugRelatedField(
+        many=False, read_only=True, slug_field="name"
+    )
 
 
 class RouteSerializer(serializers.ModelSerializer):
