@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
 
-from airport.models import Country, Airport, Route, AirplaneType, Airplane
+from airport.models import Country, Airport, Route, AirplaneType, Airplane, Crew
 
 
 class BaseSetUp(TestCase):
@@ -65,3 +65,12 @@ def sample_airplane(**params) -> Airplane:
     }
     defaults.update(**params)
     return Airplane.objects.create(**defaults)
+
+
+def sample_crew(**params) -> Crew:
+    defaults = {
+        "first_name": "Bob",
+        "last_name": "Johnson",
+    }
+    defaults.update(**params)
+    return Crew.objects.create(**defaults)
