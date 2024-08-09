@@ -44,6 +44,21 @@ class UserAirportAPITests(BaseSetUp):
         self.assertIn(serializer1.data, res.data)
         self.assertNotIn(serializer2.data, res.data)
 
+    def test_list_airports_with_filter_by_country(self):
+        country1 = sample_country(name="AAA")
+        country2 = sample_country(name="BBB")
+        airport1 = sample_airport(country=country1)
+        airport2 = sample_airport(country=country2)
+
+        res = self.client.get(AIRPORT_URL, {"country": "a"})
+
+        serializer1 = AirportListSerializer(airport1)
+        serializer2 = AirportListSerializer(airport2)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertIn(serializer1.data, res.data)
+        self.assertNotIn(serializer2.data, res.data)
+
     def test_create_airport_forbidden(self):
         payload = {
             "name": "Test_airport",
