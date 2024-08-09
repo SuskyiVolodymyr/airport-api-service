@@ -30,7 +30,8 @@ from airport.serializers import (
     OrderSerializer,
     RouteListSerializer,
     AirplaneListRetrieveSerializer,
-    FlightListSerializer, AirportListSerializer,
+    FlightListSerializer,
+    AirportListSerializer,
 )
 
 
