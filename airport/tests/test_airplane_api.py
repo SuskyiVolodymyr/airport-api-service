@@ -51,6 +51,11 @@ class UserAirplaneAPITests(BaseSetUp):
         res = self.client.post(AIRPLANE_URL, payload)
         self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
 
+    def test_airplane_capacity(self):
+        airplane = sample_airplane()
+        self.assertTrue(hasattr(airplane, "capacity"))
+        self.assertEqual(airplane.capacity, airplane.rows * airplane.seats_in_row)
+
 
 class AdminRouteAPITests(BaseSetUp):
     def setUp(self):
