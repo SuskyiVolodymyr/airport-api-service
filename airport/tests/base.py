@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
 
-from airport.models import Country, Airport, Route
+from airport.models import Country, Airport, Route, AirplaneType
 
 
 class BaseSetUp(TestCase):
@@ -48,3 +48,9 @@ def sample_route(**params) -> Route:
     }
     defaults.update(**params)
     return Route.objects.create(**defaults)
+
+
+def sample_airplane_type(**params) -> AirplaneType:
+    defaults = {"name": "Test_type"}
+    defaults.update(**params)
+    return AirplaneType.objects.create(**defaults)
