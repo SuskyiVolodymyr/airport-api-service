@@ -84,7 +84,7 @@ class Flight(models.Model):
     airplane = models.ForeignKey(
         Airplane, related_name="flights", on_delete=models.CASCADE
     )
-    crew = models.ManyToManyField(Crew, related_name="flights")
+    crew = models.ManyToManyField(Crew, related_name="flights", blank=True)
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
 
