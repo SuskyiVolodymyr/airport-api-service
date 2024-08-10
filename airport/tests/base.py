@@ -1,9 +1,11 @@
+import datetime
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
 
-from airport.models import Country, Airport, Route, AirplaneType, Airplane, Crew
+from airport.models import Country, Airport, Route, AirplaneType, Airplane, Crew, Flight
 
 
 class BaseSetUp(TestCase):
@@ -74,3 +76,15 @@ def sample_crew(**params) -> Crew:
     }
     defaults.update(**params)
     return Crew.objects.create(**defaults)
+
+
+def sample_flight(**params) -> Crew:
+    defaults = {
+        "route": sample_route(),
+        "airplane": sample_airplane(),
+        "departure_time": datetime.datetime(2024, 8, 31, 21, 0, 0),
+        "arrival_time": datetime.datetime(2024, 8, 31, 22, 0, 0),
+    }
+    defaults.update(**params)
+    flight = Flight.objects.create(**defaults)
+    return flight
