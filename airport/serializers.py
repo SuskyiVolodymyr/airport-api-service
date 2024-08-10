@@ -143,7 +143,7 @@ class TicketSeatsSerializer(TicketSerializer):
 class FlightDetailSerializer(FlightSerializer):
     route = RouteDetailSerializer(read_only=True)
     airplane = AirplaneSerializer(read_only=True)
-    crew = CrewSerializer(read_only=True)
+    crew = CrewSerializer(read_only=True, many=True)
     taken_places = TicketSeatsSerializer(source="tickets", many=True, read_only=True)
 
     class Meta:
